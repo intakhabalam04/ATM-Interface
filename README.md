@@ -49,7 +49,7 @@ After successful authentication, you will see the ATM menu with the following op
 
 Select an option by entering the corresponding number and following the prompts.
 
-## Sample Code
+# Sample Code
 
 ```java
 // Create an instance of the ATM
