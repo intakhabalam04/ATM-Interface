@@ -2,9 +2,6 @@ import java.util.*;
 import java.io.*;
 import java.text.*;
 
-
-
-
 class Bank {
     private Map<String, Account> accounts;
     private Map<String, AccountHolder> accountHolders;
