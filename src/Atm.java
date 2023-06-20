@@ -2,9 +2,6 @@ import java.util.*;
 import java.io.*;
 import java.text.*;
 
-
-
-
 class ATM {
     Scanner scanner = new Scanner(System.in);
 
@@ -14,7 +11,6 @@ class ATM {
     public ATM() {
         bank = new Bank();
     }
-
 
     public void start() {
         Scanner scanner = new Scanner(System.in);
@@ -33,7 +29,6 @@ class ATM {
             System.out.println("Authentication Failed!");
         }
     }
-
 
     private void thankYouMessage() {
         System.out.println("\nThank you, " + accountHolder.getName() + ", for using my banking services!");
