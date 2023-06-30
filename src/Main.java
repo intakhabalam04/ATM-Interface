@@ -14,6 +14,8 @@ class BankTransaction {
         this.type = type;
         this.transactionDate = transactionDate;
     }
+    
+    
 
     public Account getAccount() {
         return account;
@@ -195,6 +197,7 @@ class ATM {
             Date transactionDate = new Date();
             BankTransaction transaction = new BankTransaction(account, amount, "Deposit", transactionDate);
             accountHolder.addTransaction(transaction);
+            System.out.println("Deposit successful!");
         } else {
             System.out.println("Invalid account!");
         }
@@ -292,7 +295,7 @@ class Account {
 
     public void deposit(double amount) {
         balance += amount;
-        System.out.println("Deposit successful!");
+        
     }
 
     public void withdraw(double amount) {
