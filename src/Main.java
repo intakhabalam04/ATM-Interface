@@ -195,7 +195,6 @@ class ATM {
             Date transactionDate = new Date();
             BankTransaction transaction = new BankTransaction(account, amount, "Deposit", transactionDate);
             accountHolder.addTransaction(transaction);
-            System.out.println("Deposit successful!");
         } else {
             System.out.println("Invalid account!");
         }
@@ -216,8 +215,7 @@ class ATM {
                 if (senderAccount.getBalance() >= amount) {
                     senderAccount.transfer(receiverAccount, amount);
                     Date transactionDate = new Date();
-                    BankTransaction transaction = new BankTransaction(senderAccount, amount, "Transfer",
-                            transactionDate);
+                    BankTransaction transaction = new BankTransaction(senderAccount, amount, "Transfer",transactionDate);
                     accountHolder.addTransaction(transaction);
                 } else {
                     System.out.println("Insufficient fund!");
@@ -294,37 +292,24 @@ class Account {
 
     public void deposit(double amount) {
         balance += amount;
+        System.out.println("Deposit successful!");
     }
 
     public void withdraw(double amount) {
-        // if (balance >= amount) {
         balance -= amount;
         System.out.println("Withdrawal successful!");
-        // }
-        // else {
-        // System.out.println("Insufficient funds!");
-        // }
     }
 
     public void transfer(Account receiver, double amount) {
-        // if (balance >= amount) {
         balance -= amount;
         receiver.deposit(amount);
         System.out.println("Transfer Successful!");
-        // }
-        // else {
-        // System.out.println("Insufficient funds!");
-        // }
     }
 }
 
 public class Main {
     public static void main(String[] args) {
         ATM atm1 = new ATM();
-        // ATM atm2 = new ATM();
-        // atm1.start();
-        // atm1.start();
-        // atm2.start();
         while (true) {
             atm1.start();
         }
