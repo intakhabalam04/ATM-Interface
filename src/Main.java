@@ -14,8 +14,6 @@ class BankTransaction {
         this.type = type;
         this.transactionDate = transactionDate;
     }
-    
-    
 
     public Account getAccount() {
         return account;
@@ -79,8 +77,6 @@ class ATM {
 
         System.out.print("Enter User ID: ");
         String userId = scanner.nextLine();
-
-        
 
         System.out.print("Enter PIN: ");
         String pin = scanner.nextLine();
@@ -218,7 +214,8 @@ class ATM {
                 if (senderAccount.getBalance() >= amount) {
                     senderAccount.transfer(receiverAccount, amount);
                     Date transactionDate = new Date();
-                    BankTransaction transaction = new BankTransaction(senderAccount, amount, "Transfer",transactionDate);
+                    BankTransaction transaction = new BankTransaction(senderAccount, amount, "Transfer",
+                            transactionDate);
                     accountHolder.addTransaction(transaction);
                 } else {
                     System.out.println("Insufficient fund!");
@@ -295,7 +292,7 @@ class Account {
 
     public void deposit(double amount) {
         balance += amount;
-        
+
     }
 
     public void withdraw(double amount) {
