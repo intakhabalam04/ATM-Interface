@@ -4,12 +4,14 @@ import java.text.*;
 
 class BankTransaction {
     private Account account;
+    private Account receiverAccount; // New field for receiver account
     private double amount;
     private String type;
     private Date transactionDate;
 
-    public BankTransaction(Account account, double amount, String type, Date transactionDate) {
+    public BankTransaction(Account account, Account receiverAccount, double amount, String type, Date transactionDate) {
         this.account = account;
+        this.receiverAccount = receiverAccount;
         this.amount = amount;
         this.type = type;
         this.transactionDate = transactionDate;
@@ -17,6 +19,10 @@ class BankTransaction {
 
     public Account getAccount() {
         return account;
+    }
+
+    public Account getReceiverAccount() {
+        return receiverAccount;
     }
 
     public double getAmount() {
@@ -39,18 +45,19 @@ class Bank {
     public Bank() {
         accounts = new HashMap<>();
         accountHolders = new HashMap<>();
+
         Account account1 = new Account("123", 1000.0);
         accounts.put(account1.getAccountId(), account1);
-        Account account2 = new Account("456", 500.0);
+
+        Account account2 = new Account("456", 1000.0);
         accounts.put(account2.getAccountId(), account2);
-        Account account3 = new Account("789", 500.0);
-        accounts.put(account3.getAccountId(), account3);
+
         AccountHolder accountHolder1 = new AccountHolder("123", "123", "Intakhab Alam");
         accountHolders.put(accountHolder1.getUserId(), accountHolder1);
+
         AccountHolder accountHolder2 = new AccountHolder("456", "456", "Md Khushnood Alam");
         accountHolders.put(accountHolder2.getUserId(), accountHolder2);
-        AccountHolder accountHolder3 = new AccountHolder("789", "789", "Purna");
-        accountHolders.put(accountHolder3.getUserId(), accountHolder3);
+
     }
 
     public Account getAccount(String accountId) {
@@ -155,10 +162,18 @@ class ATM {
                 System.out.println("Type: " + transaction.getType());
                 System.out.println("Amount: $" + transaction.getAmount());
                 System.out.println("Account ID: " + transaction.getAccount().getAccountId());
+
+                Account receiverAccount = transaction.getReceiverAccount();
+                if (receiverAccount != null) {
+                    System.out.println("Receiver Account ID: " + receiverAccount.getAccountId());
+                } else {
+                    System.out.println("Receiver Account ID: N/A");
+                }
+
                 System.out.println("Date: " + transaction.getTransactionDate());
                 System.out.println("-------------------------");
             }
-            System.out.println("Account balance : $" + bank.getAccount(accountHolder.getUserId()).getBalance());
+            System.out.println("Account balance: $" + bank.getAccount(accountHolder.getUserId()).getBalance());
         }
     }
 
@@ -172,7 +187,7 @@ class ATM {
             if (account.getBalance() >= amount) {
                 account.withdraw(amount);
                 Date transactionDate = new Date();
-                BankTransaction transaction = new BankTransaction(account, amount, "Withdrawal", transactionDate);
+                BankTransaction transaction = new BankTransaction(account, null, amount, "Withdrawal", transactionDate);
                 accountHolder.addTransaction(transaction);
             } else {
                 System.out.println("Insufficient Funds!!");
@@ -191,7 +206,7 @@ class ATM {
         if (account != null) {
             account.deposit(amount);
             Date transactionDate = new Date();
-            BankTransaction transaction = new BankTransaction(account, amount, "Deposit", transactionDate);
+            BankTransaction transaction = new BankTransaction(account, null, amount, "Deposit", transactionDate);
             accountHolder.addTransaction(transaction);
             System.out.println("Deposit successful!");
         } else {
@@ -214,17 +229,26 @@ class ATM {
                 if (senderAccount.getBalance() >= amount) {
                     senderAccount.transfer(receiverAccount, amount);
                     Date transactionDate = new Date();
-                    BankTransaction transaction = new BankTransaction(senderAccount, amount, "Transfer",
-                            transactionDate);
-                    accountHolder.addTransaction(transaction);
+
+                    // Transaction in sender's account
+                    BankTransaction senderTransaction = new BankTransaction(senderAccount, receiverAccount, amount,
+                            "Transfer", transactionDate);
+                    accountHolder.addTransaction(senderTransaction);
+
+                    // Transaction in receiver's account
+                    BankTransaction receiverTransaction = new BankTransaction(receiverAccount, senderAccount, amount,
+                            "Transfer", transactionDate);
+                    AccountHolder receiverAccountHolder = bank.getAccountHolder(receiverAccount.getAccountId());
+                    receiverAccountHolder.addTransaction(receiverTransaction);
+
                 } else {
-                    System.out.println("Insufficient fund!");
+                    System.out.println("Insufficient funds!");
                 }
             } else {
                 System.out.println("Invalid account!");
             }
         } else {
-            System.out.println("Receiver Account not Found!");
+            System.out.println("Receiver account not found!");
         }
     }
 
