@@ -79,6 +79,11 @@ class ATM {
         bank = new Bank();
     }
 
+    private void clearScreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+
     public void start() {
         Scanner scanner = new Scanner(System.in);
 
@@ -89,7 +94,8 @@ class ATM {
         String pin = scanner.nextLine();
 
         if (authenticate(userId, pin)) {
-            System.out.println("\nAuthentication Successful!");
+            clearScreen();
+            System.out.println("Authentication Successful!");
             System.out.println("Welcome " + accountHolder.getName());
             showMenu(scanner);
         } else {
@@ -127,21 +133,27 @@ class ATM {
 
             switch (choice) {
                 case 1:
+                    clearScreen();
                     showTransactionHistory();
                     break;
                 case 2:
+                    clearScreen();
                     performWithdrawal(scanner);
                     break;
                 case 3:
+                    clearScreen();
                     performDeposit(scanner);
                     break;
                 case 4:
+                    clearScreen();
                     performTransfer(scanner);
                     break;
                 case 5:
+                    clearScreen();
                     showBalance();
                     break;
                 case 6:
+                    clearScreen();
                     thankYouMessage();
                     return;
                 default:
@@ -152,7 +164,7 @@ class ATM {
 
     private void showTransactionHistory() {
         List<BankTransaction> transactionHistory = accountHolder.getTransactionHistory();
-        System.out.println("\n--- Transaction History ---");
+        System.out.println("--- Transaction History ---");
         if (transactionHistory.isEmpty()) {
             System.out.println("No transactions found.");
         } else {
@@ -179,8 +191,20 @@ class ATM {
 
     private void performWithdrawal(Scanner scanner) {
         System.out.print("Enter amount to withdraw: ");
-        double amount = scanner.nextDouble();
-        scanner.nextLine();
+        double amount;
+        try {
+            amount = scanner.nextDouble();
+            scanner.nextLine();
+
+            if (amount <= 0) {
+                System.out.println("Invalid amount. Please enter a positive value.");
+                return;
+            }
+        } catch (InputMismatchException e) {
+            System.out.println("Invalid input. Please enter a valid numeric amount.");
+            scanner.nextLine();
+            return;
+        }
 
         Account account = bank.getAccount(accountHolder.getUserId());
         if (account != null) {
@@ -221,8 +245,20 @@ class ATM {
         Account receiverAccount = bank.getAccount(accountId);
         if (receiverAccount != null) {
             System.out.print("Enter amount to transfer: ");
-            double amount = scanner.nextDouble();
-            scanner.nextLine();
+            double amount;
+            try {
+                amount = scanner.nextDouble();
+                scanner.nextLine();
+
+                if (amount <= 0) {
+                    System.out.println("Invalid amount. Please enter a positive value.");
+                    return;
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a valid numeric amount.");
+                scanner.nextLine();
+                return;
+            }
 
             Account senderAccount = bank.getAccount(accountHolder.getUserId());
             if (senderAccount != null) {
