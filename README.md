@@ -14,16 +14,15 @@ To run the ATM Interface on your system, follow these steps:
 
 4. Compile the Java source files using the following command:
 
-   ```shell
-javac Main.java
+### javac Main.java
 
 Run the compiled program using the following command:
 
-java Main
+### java Main
 
 The ATM Interface will start running in the console. Follow the on-screen instructions to interact with the system.
 
-Usage
+## Usage
 Once the program is running, you will be prompted to enter a User ID and PIN for authentication. Use the provided User IDs and PINs from the sample data or modify the code to include your own user accounts.
 
 After successful authentication, you will see the ATM menu with the following options:
@@ -42,9 +41,10 @@ Quit: Terminates the program and displays a thank you message.
 
 Choose the desired option by entering the corresponding number and follow any additional prompts as necessary.
 
-Requirements
+## Requirements
 Java Development Kit (JDK) 11 or later.
-License
+
+## License
 This project is licensed under the MIT License.
 
 
