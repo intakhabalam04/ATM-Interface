@@ -27,25 +27,25 @@ Once the program is running, you will be prompted to enter a User ID and PIN for
 
 After successful authentication, you will see the ATM menu with the following options:
 
-Show Transaction History: Displays the transaction history for the logged-in account, including withdrawal, deposit, and transfer transactions.
+1. Show Transaction History: Displays the transaction history for the logged-in account, including withdrawal, deposit, and transfer transactions.
 
-Withdraw: Allows the user to withdraw a specified amount of money from their account.
+2. Withdraw: Allows the user to withdraw a specified amount of money from their account.
 
-Deposit: Allows the user to deposit a specified amount of money into their account.
+3. Deposit: Allows the user to deposit a specified amount of money into their account.
 
-Transfer: Enables the user to transfer funds from their account to another specified account.
+4. Transfer: Enables the user to transfer funds from their account to another specified account.
 
-Show Balance: Displays the current account balance.
+5. Show Balance: Displays the current account balance.
 
-Quit: Terminates the program and displays a thank you message.
+6. Quit: Terminates the program and displays a thank you message.
 
 Choose the desired option by entering the corresponding number and follow any additional prompts as necessary.
 
 ## Requirements
-Java Development Kit (JDK) 11 or later.
+- Java Development Kit (JDK) 11 or later.
 
 ## License
 This project is licensed under the MIT License.
 
 
-Feel free to customize the content according to your needs and add any additional information that may be relevant to your specific ATM interface implementation.
+- Feel free to customize the content according to your needs and add any additional information that may be relevant to your specific ATM interface implementation.
