@@ -4,7 +4,7 @@ import java.text.*;
 
 class BankTransaction {
     private Account account;
-    private Account receiverAccount; // New field for receiver account
+    private Account receiverAccount;
     private double amount;
     private String type;
     private Date transactionDate;
@@ -266,12 +266,10 @@ class ATM {
                     senderAccount.transfer(receiverAccount, amount);
                     Date transactionDate = new Date();
 
-                    // Transaction in sender's account
                     BankTransaction senderTransaction = new BankTransaction(senderAccount, receiverAccount, amount,
                             "Transfer", transactionDate);
                     accountHolder.addTransaction(senderTransaction);
 
-                    // Transaction in receiver's account
                     BankTransaction receiverTransaction = new BankTransaction(receiverAccount, senderAccount, amount,
                             "Transfer", transactionDate);
                     AccountHolder receiverAccountHolder = bank.getAccountHolder(receiverAccount.getAccountId());
