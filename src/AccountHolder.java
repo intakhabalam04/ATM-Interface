@@ -5,7 +5,6 @@ public class AccountHolder {
     private String pin;
     private String name;
     private List<BankTransaction> transactionHistory;
-    
 
     public AccountHolder(String userId, String pin, String name) {
         this.userId = userId;

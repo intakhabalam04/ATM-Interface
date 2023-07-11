@@ -15,8 +15,6 @@ public class BankTransaction {
         this.transactionDate = transactionDate;
     }
 
-    
-
     public Account getAccount() {
         return account;
     }

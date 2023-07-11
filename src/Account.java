@@ -1,4 +1,3 @@
-import java.util.*;
 
 public class Account {
     private String accountId;
@@ -8,8 +7,6 @@ public class Account {
         this.accountId = accountId;
         this.balance = balance;
     }
-
-    
 
     public String getAccountId() {
         return accountId;
