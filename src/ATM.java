@@ -6,25 +6,38 @@ public class ATM {
     private Bank bank;
     private AccountHolder accountHolder;
 
+    /**
+     * Constructor for creating an ATM object.
+     * Initializes the bank by creating a new Bank instance.
+     */
     public ATM() {
         bank = new Bank();
     }
 
+    /**
+     * A method to clear the console screen, creating a cleaner UI for the user.
+     */
     private void clearScreen() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
 
+    /**
+     * The starting point of the ATM application.
+     * Asks the user to enter User ID and PIN, and if authentication is successful,
+     * displays the main menu to the user.
+     */
     public void start() {
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("Enter User ID: ");
-        String userId = scanner.nextLine();
+        String userId = scanner.nextLine(); // Read the user's entered User ID.
 
         System.out.print("Enter PIN: ");
-        String pin = scanner.nextLine();
+        String pin = scanner.nextLine(); // Read the user's entered PIN.
 
         if (authenticate(userId, pin)) {
+            // If authentication is successful, show the main menu.
             clearScreen();
             System.out.println("Authentication Successful!");
             System.out.println("Welcome " + accountHolder.getName());
@@ -34,6 +47,14 @@ public class ATM {
         }
     }
 
+    /**
+     * Validate the User ID and PIN to authenticate the user.
+     * If the credentials are valid, set the accountHolder to the corresponding account holder object.
+     *
+     * @param userId The user ID entered by the user.
+     * @param pin    The PIN entered by the user.
+     * @return true if authentication is successful, false otherwise.
+     */
     private boolean authenticate(String userId, String pin) {
         AccountHolder accountHolder = bank.getAccountHolder(userId);
         if (accountHolder != null && accountHolder.getPin().equals(pin)) {
@@ -44,6 +65,11 @@ public class ATM {
         }
     }
 
+    /**
+     * Display the main menu and handle user's menu choice.
+     *
+     * @param scanner The Scanner object used to read user input.
+     */
     private void showMenu(Scanner scanner) {
         while (true) {
             System.out.println("\n--- ATM Menu ---");
@@ -94,6 +120,9 @@ public class ATM {
         }
     }
 
+    /**
+     * Display the transaction history for the current account holder.
+     */
     private void showTransactionHistory() {
         List<BankTransaction> transactionHistory = accountHolder.getTransactionHistory();
         System.out.println("--- Transaction History ---");
@@ -121,6 +150,11 @@ public class ATM {
         }
     }
 
+    /**
+     * Perform a withdrawal transaction for the current account holder.
+     *
+     * @param scanner The Scanner object used to read user input.
+     */
     private void performWithdrawal(Scanner scanner) {
         System.out.print("Enter amount to withdraw: ");
         double amount;
@@ -153,6 +187,11 @@ public class ATM {
         }
     }
 
+    /**
+     * Perform a deposit transaction for the current account holder.
+     *
+     * @param scanner The Scanner object used to read user input.
+     */
     private void performDeposit(Scanner scanner) {
         System.out.print("Enter amount to deposit: ");
         double amount = scanner.nextDouble();
@@ -170,6 +209,11 @@ public class ATM {
         }
     }
 
+    /**
+     * Perform a transfer transaction for the current account holder.
+     *
+     * @param scanner The Scanner object used to read user input.
+     */
     private void performTransfer(Scanner scanner) {
         System.out.print("Enter account ID to transfer: ");
         String accountId = scanner.nextLine();
@@ -218,6 +262,9 @@ public class ATM {
         }
     }
 
+    /**
+     * Display the current account balance for the current account holder.
+     */
     private void showBalance() {
         Account account = bank.getAccount(accountHolder.getUserId());
         if (account != null) {
@@ -227,12 +274,19 @@ public class ATM {
         }
     }
 
+    /**
+     * Show a personalized thank you message with the user's name.
+     *
+     * @param UserName The name of the user to include in the message.
+     */
     private void thankYouMessage(String UserName) {
         System.out.println("\nThank you, " + UserName + ", for using my banking services!");
         System.out.println("Visit Again!");
-
     }
 
+    /**
+     * Show a general thank you message without the user's name.
+     */
     private void thankYouMessage() {
         System.out.println("\nThank you for using my banking services!");
         System.out.println("Visit Again!");
