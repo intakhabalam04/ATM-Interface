@@ -1,8 +1,9 @@
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Bank {
-    private Map<String, Account> accounts;
-    private Map<String, AccountHolder> accountHolders;
+    private final Map<String, Account> accounts;
+    private final Map<String, AccountHolder> accountHolders;
 
     /**
      * Constructor for creating a Bank object.

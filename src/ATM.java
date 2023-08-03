@@ -1,9 +1,10 @@
-import java.util.*;
+import java.util.Date;
+import java.util.InputMismatchException;
+import java.util.List;
+import java.util.Scanner;
 
 public class ATM {
-    Scanner scanner = new Scanner(System.in);
-
-    private Bank bank;
+    private final Bank bank;
     private AccountHolder accountHolder;
 
     /**
@@ -81,41 +82,52 @@ public class ATM {
             System.out.println("6. LogOut");
             System.out.println("7. Quit");
 
-            System.out.print("Enter your choice: ");
-            int choice = scanner.nextInt();
-            scanner.nextLine();
+            int choice;
+            try {
+                System.out.print("Enter your choice: ");
+                choice = scanner.nextInt();
+                scanner.nextLine();
+            } catch (InputMismatchException e) {
+                System.out.println("Enter valid Index ");
+                scanner.nextLine();
+                continue;
+            }
+
 
             switch (choice) {
-                case 1:
+                case 1 -> {
                     clearScreen();
                     showTransactionHistory();
-                    break;
-                case 2:
+                }
+                case 2 -> {
                     clearScreen();
                     performWithdrawal(scanner);
-                    break;
-                case 3:
+                }
+                case 3 -> {
                     clearScreen();
                     performDeposit(scanner);
-                    break;
-                case 4:
+                }
+                case 4 -> {
                     clearScreen();
                     performTransfer(scanner);
-                    break;
-                case 5:
+                }
+                case 5 -> {
                     clearScreen();
                     showBalance();
-                    break;
-                case 6:
+                }
+                case 6 -> {
                     clearScreen();
                     thankYouMessage(accountHolder.getName());
                     return;
-                case 7:
+                }
+                case 7 -> {
                     thankYouMessage();
                     System.exit(0);
-                default:
+                }
+                default -> {
                     clearScreen();
                     System.out.println("Invalid choice. Please try again.");
+                }
             }
         }
     }
@@ -194,8 +206,20 @@ public class ATM {
      */
     private void performDeposit(Scanner scanner) {
         System.out.print("Enter amount to deposit: ");
-        double amount = scanner.nextDouble();
-        scanner.nextLine();
+        double amount;
+        try {
+            amount = scanner.nextDouble();
+            scanner.nextLine();
+        } catch (InputMismatchException e) {
+            System.out.println("Invalid Input!");
+            scanner.nextLine();
+            return;
+        }
+
+        if (amount < 0) {
+            System.out.println("Enter positive value ");
+            return;
+        }
 
         Account account = bank.getAccount(accountHolder.getUserId());
         if (account != null) {
@@ -275,7 +299,7 @@ public class ATM {
     }
 
     /**
-     * Show a personalized thank you message with the user's name.
+     * Show a personalized thank-you message with the user's name.
      *
      * @param UserName The name of the user to include in the message.
      */
@@ -285,7 +309,7 @@ public class ATM {
     }
 
     /**
-     * Show a general thank you message without the user's name.
+     * Show a general thank-you message without the user's name.
      */
     private void thankYouMessage() {
         System.out.println("\nThank you for using my banking services!");

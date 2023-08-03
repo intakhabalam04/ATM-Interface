@@ -1,11 +1,11 @@
-import java.util.*;
+import java.util.Date;
 
 public class BankTransaction {
-    private Account account;
-    private Account receiverAccount;
-    private double amount;
-    private String type;
-    private Date transactionDate;
+    private final Account account;
+    private final Account receiverAccount;
+    private final double amount;
+    private final String type;
+    private final Date transactionDate;
 
     /**
      * Constructor for creating a BankTransaction object.

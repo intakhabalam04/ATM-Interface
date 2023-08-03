@@ -1,10 +1,11 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AccountHolder {
-    private String userId;
-    private String pin;
-    private String name;
-    private List<BankTransaction> transactionHistory;
+    private final String userId;
+    private final String pin;
+    private final String name;
+    private final List<BankTransaction> transactionHistory;
 
     /**
      * Constructor for creating an AccountHolder object with the specified user ID, PIN, and name.
