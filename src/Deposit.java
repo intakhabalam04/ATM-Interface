@@ -12,8 +12,8 @@ public class Deposit {
             return;
         }
 
-        if (amount < 0) {
-            System.out.println("Enter positive value ");
+        if (amount <= 0) {
+            System.out.println("Invalid amount. Please enter a positive value.");
             return;
         }
 

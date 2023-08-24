@@ -1,5 +1,5 @@
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+
 
 public class Bank {
     private final Map<String, Account> accounts;

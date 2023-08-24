@@ -1,12 +1,8 @@
-import java.util.Date;
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Scanner;
-
+import java.util.*;
 public class ATM {
     private final Bank bank;
     private AccountHolder accountHolder;
-
+    Scanner scanner = new Scanner(System.in);
     /**
      * Constructor for creating an ATM object.
      * Initializes the bank by creating a new Bank instance.
@@ -14,7 +10,6 @@ public class ATM {
     public ATM() {
         bank = new Bank();
     }
-
     /**
      * A method to clear the console screen, creating a cleaner UI for the user.
      */
@@ -22,15 +17,12 @@ public class ATM {
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
-
     /**
      * The starting point of the ATM application.
      * Asks the user to enter User ID and PIN, and if authentication is successful,
      * displays the main menu to the user.
      */
     public void start() {
-        Scanner scanner = new Scanner(System.in);
-
         System.out.print("Enter User ID: ");
         String userId = scanner.nextLine(); // Read the user's entered User ID.
 
@@ -47,7 +39,6 @@ public class ATM {
             System.out.println("Authentication Failed!");
         }
     }
-
     /**
      * Validate the User ID and PIN to authenticate the user.
      * If the credentials are valid, set the accountHolder to the corresponding account holder object.
@@ -65,7 +56,6 @@ public class ATM {
             return false;
         }
     }
-
     /**
      * Display the main menu and handle user's menu choice.
      *
@@ -92,7 +82,6 @@ public class ATM {
                 scanner.nextLine();
                 continue;
             }
-
             switch (choice) {
                 case 1 -> {
                     clearScreen();
