@@ -93,35 +93,34 @@ public class ATM {
                 continue;
             }
 
-
             switch (choice) {
                 case 1 -> {
                     clearScreen();
-                    showTransactionHistory();
+                    TransactionHistory.showTransactionHistory(bank,accountHolder);
                 }
                 case 2 -> {
                     clearScreen();
-                    performWithdrawal(scanner);
+                    Withdrawal.performWithdrawal(scanner,bank,accountHolder);
                 }
                 case 3 -> {
                     clearScreen();
-                    performDeposit(scanner);
+                    Deposit.performDeposit(scanner,bank,accountHolder);
                 }
                 case 4 -> {
                     clearScreen();
-                    performTransfer(scanner);
+                    Transfer.performTransfer(scanner,bank,accountHolder);
                 }
                 case 5 -> {
                     clearScreen();
-                    showBalance();
+                    Balance.showBalance(bank,accountHolder);
                 }
                 case 6 -> {
                     clearScreen();
-                    thankYouMessage(accountHolder.getName());
+                    Message.thankYouMessage(accountHolder.getName());
                     return;
                 }
                 case 7 -> {
-                    thankYouMessage();
+                    Message.thankYouMessage();
                     System.exit(0);
                 }
                 default -> {
@@ -130,189 +129,5 @@ public class ATM {
                 }
             }
         }
-    }
-
-    /**
-     * Display the transaction history for the current account holder.
-     */
-    private void showTransactionHistory() {
-        List<BankTransaction> transactionHistory = accountHolder.getTransactionHistory();
-        System.out.println("--- Transaction History ---");
-        if (transactionHistory.isEmpty()) {
-            System.out.println("No transactions found.");
-        } else {
-            int count = 0;
-            for (BankTransaction transaction : transactionHistory) {
-                System.out.println(++count);
-                System.out.println("Type: " + transaction.getType());
-                System.out.println("Amount: $" + transaction.getAmount());
-                System.out.println("Account ID: " + transaction.getAccount().getAccountId());
-
-                Account receiverAccount = transaction.getReceiverAccount();
-                if (receiverAccount != null) {
-                    System.out.println("Receiver Account ID: " + receiverAccount.getAccountId());
-                } else {
-                    System.out.println("Receiver Account ID: N/A");
-                }
-
-                System.out.println("Date: " + transaction.getTransactionDate());
-                System.out.println("-------------------------");
-            }
-            System.out.println("Account balance: $" + bank.getAccount(accountHolder.getUserId()).getBalance());
-        }
-    }
-
-    /**
-     * Perform a withdrawal transaction for the current account holder.
-     *
-     * @param scanner The Scanner object used to read user input.
-     */
-    private void performWithdrawal(Scanner scanner) {
-        System.out.print("Enter amount to withdraw: ");
-        double amount;
-        try {
-            amount = scanner.nextDouble();
-            scanner.nextLine();
-
-            if (amount <= 0) {
-                System.out.println("Invalid amount. Please enter a positive value.");
-                return;
-            }
-        } catch (InputMismatchException e) {
-            System.out.println("Invalid input. Please enter a valid numeric amount.");
-            scanner.nextLine();
-            return;
-        }
-
-        Account account = bank.getAccount(accountHolder.getUserId());
-        if (account != null) {
-            if (account.getBalance() >= amount) {
-                account.withdraw(amount);
-                Date transactionDate = new Date();
-                BankTransaction transaction = new BankTransaction(account, null, amount, "Withdrawal", transactionDate);
-                accountHolder.addTransaction(transaction);
-            } else {
-                System.out.println("Insufficient Funds!!");
-            }
-        } else {
-            System.out.println("Invalid account!");
-        }
-    }
-
-    /**
-     * Perform a deposit transaction for the current account holder.
-     *
-     * @param scanner The Scanner object used to read user input.
-     */
-    private void performDeposit(Scanner scanner) {
-        System.out.print("Enter amount to deposit: ");
-        double amount;
-        try {
-            amount = scanner.nextDouble();
-            scanner.nextLine();
-        } catch (InputMismatchException e) {
-            System.out.println("Invalid Input!");
-            scanner.nextLine();
-            return;
-        }
-
-        if (amount < 0) {
-            System.out.println("Enter positive value ");
-            return;
-        }
-
-        Account account = bank.getAccount(accountHolder.getUserId());
-        if (account != null) {
-            account.deposit(amount);
-            Date transactionDate = new Date();
-            BankTransaction transaction = new BankTransaction(account, null, amount, "Deposit", transactionDate);
-            accountHolder.addTransaction(transaction);
-            System.out.println("Deposit successful!");
-        } else {
-            System.out.println("Invalid account!");
-        }
-    }
-
-    /**
-     * Perform a transfer transaction for the current account holder.
-     *
-     * @param scanner The Scanner object used to read user input.
-     */
-    private void performTransfer(Scanner scanner) {
-        System.out.print("Enter account ID to transfer: ");
-        String accountId = scanner.nextLine();
-
-        Account receiverAccount = bank.getAccount(accountId);
-        if (receiverAccount != null) {
-            System.out.print("Enter amount to transfer: ");
-            double amount;
-            try {
-                amount = scanner.nextDouble();
-                scanner.nextLine();
-
-                if (amount <= 0) {
-                    System.out.println("Invalid amount. Please enter a positive value.");
-                    return;
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("Invalid input. Please enter a valid numeric amount.");
-                scanner.nextLine();
-                return;
-            }
-
-            Account senderAccount = bank.getAccount(accountHolder.getUserId());
-            if (senderAccount != null) {
-                if (senderAccount.getBalance() >= amount) {
-                    senderAccount.transfer(receiverAccount, amount);
-                    Date transactionDate = new Date();
-
-                    BankTransaction senderTransaction = new BankTransaction(senderAccount, receiverAccount, amount,
-                            "Transfer", transactionDate);
-                    accountHolder.addTransaction(senderTransaction);
-
-                    BankTransaction receiverTransaction = new BankTransaction(receiverAccount, senderAccount, amount,
-                            "Transfer", transactionDate);
-                    AccountHolder receiverAccountHolder = bank.getAccountHolder(receiverAccount.getAccountId());
-                    receiverAccountHolder.addTransaction(receiverTransaction);
-
-                } else {
-                    System.out.println("Insufficient funds!");
-                }
-            } else {
-                System.out.println("Invalid account!");
-            }
-        } else {
-            System.out.println("Receiver account not found!");
-        }
-    }
-
-    /**
-     * Display the current account balance for the current account holder.
-     */
-    private void showBalance() {
-        Account account = bank.getAccount(accountHolder.getUserId());
-        if (account != null) {
-            System.out.println("Account Balance: $" + account.getBalance());
-        } else {
-            System.out.println("Invalid account!");
-        }
-    }
-
-    /**
-     * Show a personalized thank-you message with the user's name.
-     *
-     * @param UserName The name of the user to include in the message.
-     */
-    private void thankYouMessage(String UserName) {
-        System.out.println("\nThank you, " + UserName + ", for using my banking services!");
-        System.out.println("Visit Again!");
-    }
-
-    /**
-     * Show a general thank-you message without the user's name.
-     */
-    private void thankYouMessage() {
-        System.out.println("\nThank you for using my banking services!");
-        System.out.println("Visit Again!");
     }
 }
